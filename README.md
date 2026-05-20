@@ -6,7 +6,7 @@
 [![Python](https://img.shields.io/badge/python-3.7+-blue.svg?style=for-the-badge&logo=python)](https://www.python.org)
 [![PyPI](https://img.shields.io/pypi/v/spriter.svg?style=for-the-badge)](https://pypi.org/project/spriter)
 
-**Spriter** is a command-line tool for efficiently extracting and cropping sprites from sprite sheets.
+**Spriter** is a CLI tool for extracting and cropping sprites from sprite sheets.
 
 </div>
 
@@ -14,23 +14,27 @@
 
 ## About
 
-Spriter is a Python CLI utility designed to simplify the process of extracting individual sprites from sprite sheets. Whether you're working with game assets, animations, or icon sets, Spriter provides an intuitive and efficient way to crop sprites based on coordinates or metadata.
+Spriter is a lightweight Python command-line utility for extracting individual sprites from sprite sheets. It offers two powerful methods:
+
+1. **Grid-based extraction** - Slice sprite sheets using fixed grid dimensions
+2. **Intelligent auto-detection** - Automatically detect sprites using alpha channel analysis
+
+Perfect for game developers, animators, and anyone working with sprite assets.
 
 ## Features
 
-- **Batch sprite extraction** from sprite sheet images
-- **Flexible coordinate input** (manual coordinates, CSV metadata, JSON configuration)
-- **Multiple output formats** support
-- **Customizable output naming** and organization
-- **Command-line interface** for easy automation and scripting
-- **Fast processing** with minimal dependencies
+- **Grid-based sprite extraction** with fixed width and height
+- **Smart sprite detection** using alpha channel analysis and contour detection
+- **Automatic sprite padding** support
+- **Minimal dependencies** (PIL and OpenCV)
+- **Command-line interface** for easy automation
 
 ## Installation
 
 ### Via pip (Recommended)
 
 ```bash
-pip install spriter
+pip install spriter==1.0.0
 ```
 
 ### From source
@@ -45,206 +49,100 @@ pip install -e .
 
 - Python 3.7 or higher
 - Pillow (PIL) for image processing
+- OpenCV (cv2) for advanced sprite detection
 
 ## Quick Start
 
-### Basic Usage
+### Grid-based Extraction
 
-Extract a single sprite from a sprite sheet:
-
-```bash
-spriter crop -i spritesheet.png -o output/ -x 0 -y 0 -w 32 -h 32
-```
-
-### Using a Configuration File
-
-Create a `sprites.json` configuration file:
-
-```json
-{
-  "spritesheet": "spritesheet.png",
-  "output_dir": "output/",
-  "sprites": [
-    {"name": "sprite_1", "x": 0, "y": 0, "width": 32, "height": 32},
-    {"name": "sprite_2", "x": 32, "y": 0, "width": 32, "height": 32},
-    {"name": "sprite_3", "x": 64, "y": 0, "width": 32, "height": 32}
-  ]
-}
-```
-
-Then run:
+Extract sprites from a sprite sheet using a fixed grid size:
 
 ```bash
-spriter crop --config sprites.json
+spriter grid input_sheet.png --width 32 --height 32 -o ./output/
 ```
 
-### Using CSV Metadata
+This will split the sprite sheet into 32x32 pixel sprites.
 
-Create a `sprites.csv` file:
+### Auto-detection Extraction
 
-```csv
-name,x,y,width,height
-sprite_1,0,0,32,32
-sprite_2,32,0,32,32
-sprite_3,64,0,32,32
-```
-
-Extract sprites:
+Automatically detect and extract sprites based on alpha channel transparency:
 
 ```bash
-spriter crop -i spritesheet.png -o output/ --csv sprites.csv
+spriter slice input_sheet.png -o ./output/
 ```
 
 ## Usage and Options
 
-### Global Options
+### grid Command
 
-```
--v, --version          Show version information and exit
--h, --help             Show help message and exit
-```
-
-### crop Command
+Extract sprites using fixed grid dimensions.
 
 ```bash
-spriter crop [OPTIONS]
-
-Options:
-  -i, --input FILE           Path to input sprite sheet (required if not in config)
-  -o, --output DIR           Output directory for cropped sprites (default: ./output)
-  -x, --x-offset INT         X coordinate of sprite (0-based)
-  -y, --y-offset INT         Y coordinate of sprite (0-based)
-  -w, --width INT            Width of sprite in pixels
-  -h, --height INT           Height of sprite in pixels
-  -n, --name TEXT            Output filename for single sprite
-  --config FILE              Configuration file (JSON or YAML)
-  --csv FILE                 CSV file with sprite coordinates
-  --format TEXT              Output format (png, jpg, bmp; default: png)
-  --quality INT              JPEG quality (1-100; default: 95)
-  --padding INT              Add padding around sprites (default: 0)
-  --background COLOR         Background color for transparency (hex or name)
-  --prefix TEXT              Prefix for output filenames
-  --suffix TEXT              Suffix for output filenames
-  --preserve-names           Use names from config instead of auto-naming
+spriter grid INPUT -o OUTPUT --width WIDTH --height HEIGHT
 ```
 
-### Examples
+**Options:**
+- `INPUT` - Path to input sprite sheet (required)
+- `-o, --output` - Output directory (default: ~/)
+- `--width` - Width of each sprite in pixels (required)
+- `--height` - Height of each sprite in pixels (required)
 
-**Extract a single sprite:**
+**Example:**
 ```bash
-spriter crop -i sheet.png -x 10 -y 20 -w 50 -h 50 -n my_sprite.png -o sprites/
+spriter grid spritesheet.png --width 64 --height 64 -o ./sprites/
 ```
 
-**Extract all sprites from CSV with custom settings:**
+### slice Command
+
+Automatically detect and extract sprites using alpha channel analysis.
+
 ```bash
-spriter crop -i sheet.png -o sprites/ --csv metadata.csv --format jpg --quality 85
+spriter slice INPUT -o OUTPUT [OPTIONS]
 ```
 
-**Add padding and prefix to all outputs:**
+**Options:**
+- `INPUT` - Path to input sprite sheet with alpha channel (required)
+- `-o, --output` - Output directory (default: ~/)
+- `--min-area` - Minimum sprite area in pixels to extract (default: 100)
+- `--padding` - Padding around each detected sprite in pixels (default: 0)
+
+**Example:**
 ```bash
-spriter crop --config config.json --padding 2 --prefix "game_"
-```
-
-**Extract with background color:**
-```bash
-spriter crop -i sheet.png --csv sprites.csv -o output/ --background "#FF00FF"
-```
-
-## Configuration File Formats
-
-### JSON Configuration
-
-```json
-{
-  "spritesheet": "path/to/spritesheet.png",
-  "output_dir": "path/to/output",
-  "output_format": "png",
-  "options": {
-    "quality": 95,
-    "padding": 0,
-    "prefix": "",
-    "suffix": ""
-  },
-  "sprites": [
-    {
-      "name": "character_idle",
-      "x": 0,
-      "y": 0,
-      "width": 32,
-      "height": 32
-    },
-    {
-      "name": "character_run",
-      "x": 32,
-      "y": 0,
-      "width": 32,
-      "height": 32
-    }
-  ]
-}
-```
-
-### CSV Format
-
-```csv
-name,x,y,width,height
-sprite_1,0,0,32,32
-sprite_2,32,0,32,32
-sprite_3,0,32,32,32
-sprite_4,32,32,32,32
-```
-
-## Python API
-
-You can also use Spriter as a Python library:
-
-```python
-from spriter import Spriter
-
-# Initialize Spriter
-spriter = Spriter('spritesheet.png')
-
-# Crop a single sprite
-spriter.crop(x=0, y=0, width=32, height=32, output='sprite.png')
-
-# Crop multiple sprites from config
-spriter.crop_from_config('config.json', output_dir='sprites/')
-
-# Crop from CSV
-spriter.crop_from_csv('metadata.csv', output_dir='sprites/')
+spriter slice spritesheet.png -o ./sprites/ --padding 2 --min-area 50
 ```
 
 ## Supported Image Formats
 
-**Input:** PNG, JPEG, BMP, GIF, TIFF
-**Output:** PNG (default), JPEG, BMP, GIF, TIFF
+**Input:** PNG, JPEG, BMP, and other OpenCV-supported formats
+**Output:** PNG (default)
+
+## Limitations
+
+- JSON and CSV metadata formats are **not supported**
+- Output format is fixed to PNG
+- No custom naming or prefix options
 
 ## Performance Tips
 
-- For large sprite sheets, consider splitting them into sections
-- Use PNG format for lossless output (recommended for game assets)
-- Adjust JPEG quality based on your needs (higher quality = larger file size)
-- Batch multiple sprites in a single configuration file for faster processing
+- For large sprite sheets, use the **grid command** for consistent results
+- Use the **slice command** for irregular sprite layouts with transparency
+- The slice command requires images with an alpha channel (PNG format recommended)
+- Use `--min-area` to filter out noise and small artifacts
 
 ## Troubleshooting
 
-### "Sprite out of bounds"
-Ensure your x, y, width, and height coordinates are within the sprite sheet dimensions.
+### "Image has no alpha channel"
+The slice command requires images with transparency. Ensure your input is in PNG format with an alpha channel.
 
-### "Unsupported image format"
-Verify the input file is in a supported format (PNG, JPEG, BMP, GIF, TIFF).
+### "Failed to load image"
+Verify the input file path is correct and the format is supported by OpenCV.
 
-### "Output directory not found"
-The tool will attempt to create the output directory. Ensure you have write permissions.
-
-### Memory issues with large files
-Process the sprite sheet in sections or reduce image quality settings.
+### Output directory not created
+The tool will automatically create the output directory if it doesn't exist. Ensure you have write permissions.
 
 ## Contributing
 
 Contributions are welcome! Please feel free to submit pull requests or open issues for bugs and feature requests.
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
 ## License
 
@@ -252,19 +150,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Support
 
-- 📖 [Documentation](https://github.com/ifuckingjoke/spriter/wiki)
 - 🐛 [Issue Tracker](https://github.com/ifuckingjoke/spriter/issues)
 - 💬 [Discussions](https://github.com/ifuckingjoke/spriter/discussions)
-
-## Changelog
-
-See [CHANGELOG.md](CHANGELOG.md) for a list of changes in each release.
-
-## Related Projects
-
-- [Texture Packer](https://www.codeandweb.com/texturepacker) - Professional sprite sheet creator
-- [ImageMagick](https://imagemagick.org) - General-purpose image manipulation
-- [PIL/Pillow](https://python-pillow.org) - Python Imaging Library
 
 ---
 
