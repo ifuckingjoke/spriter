@@ -5,7 +5,7 @@ description = "CLI tool for crop sprites in sprite sheets"
 authors = ["ifuckingjoke"]
 
 packages = [
-    { include = "spriter", from = "src" }
+    { include = "py-spriter", from = "src" }
 ]
 
 [tool.poetry.dependencies]
