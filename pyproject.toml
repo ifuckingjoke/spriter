@@ -14,7 +14,7 @@ pillow = "^12.2.0"
 opencv-python = "^4.13.0.92"
 
 [tool.poetry.scripts]
-spriter = "spriter.main:main"
+spriter = "py-spriter.main:main"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
