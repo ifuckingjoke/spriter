@@ -34,7 +34,7 @@ Perfect for game developers, animators, and anyone working with sprite assets.
 ### Via pip (Recommended)
 
 ```bash
-pip install py-spriter==1.0.0
+pip install py-spriter
 ```
 
 ### From source
@@ -160,5 +160,7 @@ For more information about GPL-3.0, visit [https://www.gnu.org/licenses/gpl-3.0.
 <div align="center">
 
 Made with ❤️ by [ifuckingjoke](https://github.com/ifuckingjoke)
+
+ifuckingjoke@proton.me
 
 </div>
