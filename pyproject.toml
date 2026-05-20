@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "spriter"
+version = "1.0.0"
+description = "CLI tool for crop sprites in sprite sheets"
+authors = ["ifuckingjoke"]
+
+packages = [
+    { include = "spriter", from = "src" }
+]
+
+[tool.poetry.dependencies]
+python = ">=3.12"
+pillow = "^12.2.0"
+opencv-python = "^4.13.0.92"
+
+[tool.poetry.scripts]
+spriter = "spriter.main:main"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

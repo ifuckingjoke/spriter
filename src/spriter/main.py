@@ -51,9 +51,7 @@ def cmd_slice(args):
         cv2.CHAIN_APPROX_SIMPLE
     )
 
-    contours = sorted(contours, key=lambda c: cv2.boundingRect(c)[0])
-
-    os.makedirs(args.output, exist_ok=True)
+    contours = sorted(contours, key=lambda c: cv2.boundingRect(c)[1], reverse=True)
 
     count = 0
 
@@ -85,7 +83,7 @@ def main():
     # --- GRID ---
     grid = subparsers.add_parser("grid", help="Slice by fixed grid")
     grid.add_argument("input")
-    grid.add_argument("-o", "--output", default=os.path.expanduser("~/PycharmProject/spriter/sprites"))
+    grid.add_argument("-o", "--output", default=os.path.expanduser("~/"))
     grid.add_argument( "--width", type=int, required=True)
     grid.add_argument( "--height", type=int, required=True)
     grid.set_defaults(func=cmd_grid)
@@ -93,7 +91,7 @@ def main():
     # --- SLICE ---
     slice_ = subparsers.add_parser("slice", help="Auto detect sprites")
     slice_.add_argument("input")
-    slice_.add_argument("-o", "--output", default=os.path.expanduser("~/PycharmProject/spriter/sprites"))
+    slice_.add_argument("-o", "--output", default=os.path.expanduser("~/"))
     slice_.add_argument("--min-area", type=int, default=100, help="Minimum sprite area")
     slice_.add_argument("--padding", type=int, default=0, help="Padding around sprite")
     slice_.set_defaults(func=cmd_slice)
