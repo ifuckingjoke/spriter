@@ -4,7 +4,7 @@
 
 [![License](https://img.shields.io/badge/license-GPL--3.0-blue.svg?style=for-the-badge)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.7+-blue.svg?style=for-the-badge&logo=python)](https://www.python.org)
-[![PyPI](https://img.shields.io/pypi/v/pyspriter.svg?style=for-the-badge)](https://pypi.org/project/py-spriter)
+[![PyPI](https://img.shields.io/pypi/v/spriter-python.svg?style=for-the-badge)](https://pypi.org/project/py-spriter)
 
 **Spriter** is a CLI tool for extracting and cropping sprites from sprite sheets.
 
@@ -34,7 +34,7 @@ Perfect for game developers, animators, and anyone working with sprite assets.
 ### Via pip (Recommended)
 
 ```bash
-pip install py-py-spriter
+pip install spriter-python
 ```
 
 ### From source

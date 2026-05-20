@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "pyspriter"
-version = "1.2.0"
+name = "spriter-python"
+version = "1.4.0"
 description = "CLI tool for crop sprites in sprite sheets"
 authors = ["ifuckingjoke"]
 
