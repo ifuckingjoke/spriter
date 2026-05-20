@@ -77,7 +77,7 @@ def cmd_slice(args):
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="py-spriter")
+    parser = argparse.ArgumentParser(prog="spriter")
     subparsers = parser.add_subparsers(dest="cmd", required=True)
 
     # --- GRID ---

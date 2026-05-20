@@ -41,7 +41,7 @@ pip install spriter-python
 
 ```bash
 git clone https://github.com/ifuckingjoke/spriter.git
-cd py-spriter
+cd spriter
 pip install -e .
 ```
 
@@ -58,7 +58,7 @@ pip install -e .
 Extract sprites from a sprite sheet using a fixed grid size:
 
 ```bash
-py-spriter grid input_sheet.png --width 32 --height 32 -o ./output/
+spriter grid input_sheet.png --width 32 --height 32 -o ./output/
 ```
 
 This will split the sprite sheet into 32x32 pixel sprites.
@@ -68,7 +68,7 @@ This will split the sprite sheet into 32x32 pixel sprites.
 Automatically detect and extract sprites based on alpha channel transparency:
 
 ```bash
-py-spriter slice input_sheet.png -o ./output/
+spriter slice input_sheet.png -o ./output/
 ```
 
 ## Usage and Options
@@ -78,7 +78,7 @@ py-spriter slice input_sheet.png -o ./output/
 Extract sprites using fixed grid dimensions.
 
 ```bash
-py-spriter grid INPUT -o OUTPUT --width WIDTH --height HEIGHT
+spriter grid INPUT -o OUTPUT --width WIDTH --height HEIGHT
 ```
 
 **Options:**
@@ -89,7 +89,7 @@ py-spriter grid INPUT -o OUTPUT --width WIDTH --height HEIGHT
 
 **Example:**
 ```bash
-py-spriter grid spritesheet.png --width 64 --height 64 -o ./sprites/
+spriter grid spritesheet.png --width 64 --height 64 -o ./sprites/
 ```
 
 ### slice Command
@@ -97,7 +97,7 @@ py-spriter grid spritesheet.png --width 64 --height 64 -o ./sprites/
 Automatically detect and extract sprites using alpha channel analysis.
 
 ```bash
-py-spriter slice INPUT -o OUTPUT [OPTIONS]
+spriter slice INPUT -o OUTPUT [OPTIONS]
 ```
 
 **Options:**
@@ -108,7 +108,7 @@ py-spriter slice INPUT -o OUTPUT [OPTIONS]
 
 **Example:**
 ```bash
-py-spriter slice spritesheet.png -o ./sprites/ --padding 2 --min-area 50
+spriter slice spritesheet.png -o ./sprites/ --padding 2 --min-area 50
 ```
 
 ## Supported Image Formats
